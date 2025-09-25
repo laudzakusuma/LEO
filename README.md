@@ -252,13 +252,11 @@ The UI is responsive and works on mobile devices:
 - [ ] Gesture control
 - [ ] Emotion detection
 
-## 📝 License
-This project is for educational purposes. Please respect API terms of service.
 
-## 🤝 Contributing
+## Contributing
 Feel free to submit issues, fork the repository, and create pull requests.
 
-## 📞 Support
+## Support
 For issues or questions:
 - Check documentation first
 - Search existing issues
