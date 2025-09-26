@@ -1,6 +1,21 @@
+# AI & Voice
 elevenlabs
-pyaudio
+langchain-community
 openai
-dotenv
+pyttsx3
+speechrecognition
+
+# Data & Finance
+yfinance
+feedparser
+wikipedia-api
+geopy
+
+# Utilities
+numpy
+opencv-python
+pyautogui
+pygame
+qrcode
 pillow
-langchain_community
+simpleaudio

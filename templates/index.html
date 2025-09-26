@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS - Advanced AI Assistant</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #0099cc;
+            --accent-color: #00ffcc;
+            --background-dark: #0a0e27;
+            --background-darker: #050715;
+            --panel-bg: rgba(10, 14, 39, 0.85);
+            --border-color: rgba(0, 212, 255, 0.3);
+            --text-primary: #e0f7ff;
+            --text-secondary: #a0c4d3;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --error: #ff3366;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--background-darker);
+            color: var(--text-primary);
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+            font-weight: 400;
+        }
+
+        /* Advanced Background */
+        .background-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(0, 153, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 204, 0.05) 0%, transparent 70%),
+                linear-gradient(180deg, var(--background-darker) 0%, var(--background-dark) 100%);
+        }
+
+        .grid-overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Left Panel - Tools */
+        .left-panel {
+            width: 320px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 153, 204, 0.05) 100%);
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary-color);
+        }
+
+        .tools-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .tool-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 153, 204, 0.02) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .tool-card:hover::before {
+            left: 100%;
+        }
+
+        .tool-card:hover {
+            transform: translateX(5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.15);
+        }
+
+        .tool-icon {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            margin-bottom: 10px;
+            background: var(--primary-color);
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .tool-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tool-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Center Display */
+        .center-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Top Status Bar */
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .system-metrics {
+            display: flex;
+            gap: 40px;
+        }
+
+        .metric-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .metric-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Advanced Arc Reactor */
+        .reactor-container {
+            width: 450px;
+            height: 450px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .reactor-core {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 80px rgba(0, 212, 255, 0.5),
+                inset 0 0 80px rgba(0, 212, 255, 0.2);
+            animation: rotate 15s linear infinite;
+        }
+
+        .reactor-inner {
+            position: absolute;
+            border: 1px solid var(--secondary-color);
+            border-radius: 50%;
+        }
+
+        .inner-ring-1 {
+            width: 85%;
+            height: 85%;
+            top: 7.5%;
+            left: 7.5%;
+            animation: rotate-reverse 12s linear infinite;
+            opacity: 0.8;
+        }
+
+        .inner-ring-2 {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            animation: rotate 10s linear infinite;
+            opacity: 0.6;
+        }
+
+        .inner-ring-3 {
+            width: 55%;
+            height: 55%;
+            top: 22.5%;
+            left: 22.5%;
+            animation: rotate-reverse 8s linear infinite;
+            opacity: 0.4;
+        }
+
+        .power-core {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.9) 0%, 
+                rgba(0, 212, 255, 0.8) 30%, 
+                rgba(0, 153, 204, 0.4) 60%, 
+                transparent 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-core 2s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .energy-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rotate-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        @keyframes pulse-core {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                filter: blur(1px);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1);
+                filter: blur(0.5px);
+            }
+        }
+
+        /* Audio Visualizer */
+        .visualizer-container {
+            width: 600px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            margin: 30px 0;
+        }
+
+        .frequency-bar {
+            width: 3px;
+            background: linear-gradient(to top, 
+                var(--primary-color) 0%, 
+                var(--secondary-color) 50%, 
+                var(--accent-color) 100%);
+            border-radius: 2px 2px 0 0;
+            transition: height 0.1s ease;
+            opacity: 0.9;
+        }
+
+        /* Status Display */
+        .status-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .status-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: status-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes status-glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        /* Control Interface */
+        .control-interface {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 25px 40px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-button {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            transition: left 0.3s;
+            z-index: -1;
+        }
+
+        .control-button:hover::before {
+            left: 0;
+        }
+
+        .control-button:hover {
+            color: var(--background-darker);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .control-button.active {
+            background: var(--primary-color);
+            color: var(--background-darker);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Right Panel - Conversation */
+        .right-panel {
+            width: 380px;
+            background: var(--panel-bg);
+            border-left: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .conversation-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+        }
+
+        .message-time {
+            margin-left: auto;
+            font-size: 11px;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .message-content {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .user-message .message-content {
+            background: linear-gradient(135deg, rgba(0, 153, 204, 0.1) 0%, rgba(0, 153, 204, 0.05) 100%);
+            border-left: 2px solid var(--secondary-color);
+        }
+
+        .ai-message .message-content {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+            border-left: 2px solid var(--primary-color);
+        }
+
+        .user-message .message-sender {
+            color: var(--secondary-color);
+        }
+
+        .ai-message .message-sender {
+            color: var(--primary-color);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        /* HUD Elements */
+        .hud-frame {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .hud-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--primary-color);
+            opacity: 0.3;
+        }
+
+        .hud-tl {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .hud-tr {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .hud-bl {
+            bottom: 10px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .hud-br {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Loading State */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(5, 7, 21, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="grid-overlay"></div>
+    
+    <!-- HUD Frame -->
+    <div class="hud-frame">
+        <div class="hud-corner hud-tl"></div>
+        <div class="hud-corner hud-tr"></div>
+        <div class="hud-corner hud-bl"></div>
+        <div class="hud-corner hud-br"></div>
+    </div>
+    
+    <div class="main-container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <div class="panel-header">
+                <div class="panel-title">System Tools</div>
+            </div>
+            <div class="tools-container">
+                <div class="tool-card" onclick="activateTool('search')">
+                    <div class="tool-icon"></div>
+                    <div class="tool-name">Web Search</div>
+                    <div class="tool-description">Query internet databases for information retrieval</div>
+                </div>
+                <div class="tool-card" onclick="activateTool('image')">
+                    <div class="tool-icon"></div>
+                    <div class="tool-name">Image Generation</div>
+                    <div class="tool-description">Create visual content using AI synthesis</div>
+                </div>
+                <div class="tool-card" onclick="activateTool('save')">
+                    <div class="tool-icon"></div>
+                    <div class="tool-name">Data Storage</div>
+                    <div class="tool-description">Persist conversation data to local storage</div>
+                </div>
+                <div class="tool-card" onclick="activateTool('html')">
+                    <div class="tool-icon"></div>
+                    <div class="tool-name">Document Builder</div>
+                    <div class="tool-description">Generate structured HTML documents</div>
+                </div>
+                <div class="tool-card" onclick="activateTool('weather')">
+                    <div class="tool-icon"></div>
+                    <div class="tool-name">Weather Analysis</div>
+                    <div class="tool-description">Retrieve meteorological data and forecasts</div>
+                </div>
+                <div class="tool-card" onclick="activateTool('translate')">
+                    <div class="tool-icon"></div>
+                    <div class="tool-name">Language Processing</div>
+                    <div class="tool-description">Multi-language translation service</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Center Display -->
+        <div class="center-display">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="system-metrics">
+                    <div class="metric-item">
+                        <span class="metric-label">Status</span>
+                        <span class="metric-value" id="systemStatus">READY</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">CPU</span>
+                        <span class="metric-value" id="cpuUsage">0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Memory</span>
+                        <span class="metric-value" id="memoryUsage">0GB</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Network</span>
+                        <span class="metric-value" id="networkStatus">ACTIVE</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Arc Reactor -->
+            <div class="reactor-container">
+                <div class="reactor-core"></div>
+                <div class="reactor-inner inner-ring-1"></div>
+                <div class="reactor-inner inner-ring-2"></div>
+                <div class="reactor-inner inner-ring-3"></div>
+                <div class="power-core"></div>
+            </div>
+            
+            <!-- Audio Visualizer -->
+            <div class="visualizer-container" id="audioVisualizer"></div>
+            
+            <!-- Status Display -->
+            <div class="status-container">
+                <div class="status-text" id="statusText">SYSTEM READY</div>
+            </div>
+            
+            <!-- Control Interface -->
+            <div class="control-interface">
+                <button class="control-button" id="startBtn" onclick="toggleListening()">
+                    Initialize Voice
+                </button>
+                <button class="control-button" onclick="clearHistory()">
+                    Clear Memory
+                </button>
+                <button class="control-button" onclick="exportData()">
+                    Export Data
+                </button>
+                <button class="control-button" onclick="systemDiagnostics()">
+                    Diagnostics
+                </button>
+            </div>
+        </div>
+        
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="panel-header">
+                <div class="panel-title">Communication Log</div>
+            </div>
+            <div class="conversation-container" id="conversationLog"></div>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        // Initialize visualizer
+        function initializeVisualizer() {
+            const container = document.getElementById('audioVisualizer');
+            for (let i = 0; i < 80; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'frequency-bar';
+                bar.style.height = '10px';
+                container.appendChild(bar);
+            }
+        }
+
+        // Animate visualizer
+        function animateVisualizer() {
+            const bars = document.querySelectorAll('.frequency-bar');
+            bars.forEach((bar, index) => {
+                const height = Math.sin(Date.now() * 0.001 + index * 0.1) * 50 + 50;
+                bar.style.height = height + 'px';
+            });
+        }
+
+        // WebSocket connection
+        let ws = null;
+        let visualizerInterval = null;
+        let isListening = false;
+
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket('ws://localhost:8765');
+                
+                ws.onopen = () => {
+                    updateStatus('CONNECTED');
+                    addMessage('SYSTEM', 'Neural interface established. All systems operational.');
+                };
+                
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    handleMessage(data);
+                };
+                
+                ws.onerror = () => {
+                    updateStatus('ERROR');
+                    addMessage('SYSTEM', 'Connection error detected. Switching to offline mode.');
+                };
+                
+                ws.onclose = () => {
+                    updateStatus('OFFLINE');
+                    setTimeout(connectWebSocket, 3000);
+                };
+            } catch (e) {
+                console.error('WebSocket initialization failed:', e);
+                updateStatus('OFFLINE');
+            }
+        }
+
+        function handleMessage(data) {
+            if (data.type === 'transcript') {
+                addMessage('USER', data.text);
+            } else if (data.type === 'response') {
+                addMessage('JARVIS', data.text);
+            } else if (data.type === 'tool_activation') {
+                addMessage('SYSTEM', `Tool activated: ${data.tool.toUpperCase()}`);
+            }
+        }
+
+        function toggleListening() {
+            const btn = document.getElementById('startBtn');
+            isListening = !isListening;
+            
+            if (isListening) {
+                btn.textContent = 'Terminate Voice';
+                btn.classList.add('active');
+                updateStatus('LISTENING');
+                startListening();
+            } else {
+                btn.textContent = 'Initialize Voice';
+                btn.classList.remove('active');
+                updateStatus('READY');
+                stopListening();
+            }
+        }
+
+        function startListening() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ action: 'start_listening' }));
+            }
+            visualizerInterval = setInterval(animateVisualizer, 50);
+        }
+
+        function stopListening() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ action: 'stop_listening' }));
+            }
+            if (visualizerInterval) {
+                clearInterval(visualizerInterval);
+                document.querySelectorAll('.frequency-bar').forEach(bar => {
+                    bar.style.height = '10px';
+                });
+            }
+        }
+
+        function activateTool(toolName) {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ action: 'use_tool', tool: toolName }));
+            }
+            addMessage('SYSTEM', `Initializing ${toolName.toUpperCase()} module...`);
+        }
+
+        function addMessage(sender, text) {
+            const container = document.getElementById('conversationLog');
+            const message = document.createElement('div');
+            message.className = `message ${sender.toLowerCase()}-message`;
+            
+            const time = new Date().toLocaleTimeString('en-US', { 
+                hour12: false, 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            message.innerHTML = `
+                <div class="message-header">
+                    <span class="message-sender">${sender}</span>
+                    <span class="message-time">${time}</span>
+                </div>
+                <div class="message-content">${text}</div>
+            `;
+            
+            container.insertBefore(message, container.firstChild);
+            
+            // Keep only last 50 messages
+            while (container.children.length > 50) {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+        function updateStatus(status) {
+            document.getElementById('statusText').textContent = status;
+            document.getElementById('systemStatus').textContent = status;
+        }
+
+        function clearHistory() {
+            document.getElementById('conversationLog').innerHTML = '';
+            addMessage('SYSTEM', 'Communication log cleared.');
+        }
+
+        function exportData() {
+            const log = document.getElementById('conversationLog').innerText;
+            const blob = new Blob([log], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `jarvis_log_${Date.now()}.txt`;
+            a.click();
+            addMessage('SYSTEM', 'Data export completed.');
+        }
+
+        function systemDiagnostics() {
+            addMessage('SYSTEM', 'Running system diagnostics...');
+            setTimeout(() => {
+                addMessage('SYSTEM', 'All systems operational. No anomalies detected.');
+            }, 1500);
+        }
+
+        function updateSystemMetrics() {
+            document.getElementById('cpuUsage').textContent = Math.floor(Math.random() * 60 + 20) + '%';
+            document.getElementById('memoryUsage').textContent = (Math.random() * 4 + 2).toFixed(1) + 'GB';
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            initializeVisualizer();
+            connectWebSocket();
+            setInterval(updateSystemMetrics, 3000);
+            
+            // Add energy particles to reactor
+            const reactor = document.querySelector('.reactor-container');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'energy-particle';
+                particle.style.animation = `particle-orbit-${i} ${3 + Math.random() * 4}s linear infinite`;
+                reactor.appendChild(particle);
+            }
+            
+            // Define particle orbits
+            const style = document.createElement('style');
+            for (let i = 0; i < 20; i++) {
+                const radius = 100 + Math.random() * 100;
+                const startAngle = Math.random() * 360;
+                style.textContent += `
+                    @keyframes particle-orbit-${i} {
+                        from {
+                            transform: rotate(${startAngle}deg) translateX(${radius}px) rotate(-${startAngle}deg);
+                        }
+                        to {
+                            transform: rotate(${startAngle + 360}deg) translateX(${radius}px) rotate(-${startAngle + 360}deg);
+                        }
+                    }
+                `;
+            }
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
