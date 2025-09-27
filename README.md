@@ -3,14 +3,13 @@
 ## Features
 
 ### Core Features
-- **Voice Interaction** - Real-time voice input/output dengan ElevenLabs
-- **Futuristic Web UI** - Interface seperti JARVIS dengan animasi Arc Reactor
+- **Voice Interaction** - Real-time voice input/output
 - **Audio Visualizer** - Real-time audio waveform visualization
 - **Chat History** - Menyimpan riwayat percakapan
 
 ### Enhanced Tools
 - **Web Search** - Pencarian informasi dari internet
-- **Image Generation** - Generate gambar dengan DALL-E 3
+- **Image Generation** - Generate gambar
 - **Weather Information** - Info cuaca real-time
 - **Translation** - Translate text antar bahasa
 - **News Updates** - Berita terkini dari berbagai kategori
