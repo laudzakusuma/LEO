@@ -1,7 +1,4 @@
-# 🤖 JARVIS AI Assistant - Setup & Documentation
-
-## 📋 Overview
-JARVIS adalah AI Assistant futuristik dengan UI yang terinspirasi dari Iron Man's JARVIS. Sistem ini menggunakan ElevenLabs untuk percakapan voice real-time, OpenAI untuk AI capabilities, dan berbagai tools untuk fungsi-fungsi canggih.
+# 🤖 L.E.O (Living Entity Online)
 
 ## ✨ Features
 
@@ -86,9 +83,9 @@ jarvis-ai-assistant/
 └── requirement.txt       # Python dependencies
 ```
 
-## 🚀 Running JARVIS
+## 🚀 Running L.E.O
 
-### Method 1: Using JARVIS Launcher (Recommended)
+### Method 1: Using L.E.O Launcher (Recommended)
 ```bash
 python jarvis_launcher.py
 ```
@@ -123,7 +120,7 @@ python main.py
 5. **Clear History** - Hapus chat history
 
 ### Voice Commands Examples
-- "Hey JARVIS, what's the weather today?"
+- "Hey L.E.O, what's the weather today?"
 - "Search for latest technology news"
 - "Generate an image of a futuristic city"
 - "Translate 'Hello World' to Japanese"
@@ -136,7 +133,7 @@ python main.py
 ### Keyboard Shortcuts
 - `Spacebar` - Toggle voice listening
 - `Esc` - Stop current operation
-- `Ctrl+C` - Stop JARVIS (in terminal)
+- `Ctrl+C` - Stop L.E.O (in terminal)
 
 ## 🔧 Troubleshooting
 
@@ -192,16 +189,6 @@ document.documentElement.style.cssText = `
 Edit keyframes in CSS section of `index.html`
 
 ## 📊 API Configuration
-
-### ElevenLabs
-1. Sign up at https://elevenlabs.io
-2. Create a Conversational AI agent
-3. Get API key and Agent ID from dashboard
-
-### OpenAI
-1. Sign up at https://platform.openai.com
-2. Generate API key
-3. Add billing information if needed
 
 ### OpenWeatherMap (Optional)
 1. Sign up at https://openweathermap.org
