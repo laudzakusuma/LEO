@@ -1,33 +1,29 @@
-# 🤖 JARVIS AI Assistant - Setup & Documentation
+# L.E.O (Laudza’s Everlasting Operator)
 
-## 📋 Overview
-JARVIS adalah AI Assistant futuristik dengan UI yang terinspirasi dari Iron Man's JARVIS. Sistem ini menggunakan ElevenLabs untuk percakapan voice real-time, OpenAI untuk AI capabilities, dan berbagai tools untuk fungsi-fungsi canggih.
-
-## ✨ Features
+## Features
 
 ### Core Features
-- 🎤 **Voice Interaction** - Real-time voice input/output dengan ElevenLabs
-- 🌐 **Futuristic Web UI** - Interface seperti JARVIS dengan animasi Arc Reactor
-- 🔊 **Audio Visualizer** - Real-time audio waveform visualization
-- 💬 **Chat History** - Menyimpan riwayat percakapan
+- **Voice Interaction** - Real-time voice input/output
+- **Audio Visualizer** - Real-time audio waveform visualization
+- **Chat History** - Menyimpan riwayat percakapan
 
 ### Enhanced Tools
-- 🔍 **Web Search** - Pencarian informasi dari internet
-- 🎨 **Image Generation** - Generate gambar dengan DALL-E 3
-- 🌤️ **Weather Information** - Info cuaca real-time
-- 🌍 **Translation** - Translate text antar bahasa
-- 📰 **News Updates** - Berita terkini dari berbagai kategori
-- 💰 **Crypto Prices** - Harga cryptocurrency real-time
-- 📊 **System Monitoring** - Monitor CPU, memory, disk usage
-- 📸 **Screenshot** - Ambil screenshot
-- 📝 **Notes & Reminders** - Buat catatan dan pengingat
-- 🏠 **Smart Home Control** - Kontrol perangkat smart home (simulasi)
-- 🔢 **Calculator** - Kalkulasi matematika
-- 📧 **Email Notifications** - Kirim email notifikasi
-- 🔲 **QR Code Generator** - Generate QR codes
-- 📚 **Wikipedia Search** - Cari informasi dari Wikipedia
+- **Web Search** - Pencarian informasi dari internet
+- **Image Generation** - Generate gambar
+- **Weather Information** - Info cuaca real-time
+- **Translation** - Translate text antar bahasa
+- **News Updates** - Berita terkini dari berbagai kategori
+- **Crypto Prices** - Harga cryptocurrency real-time
+- **System Monitoring** - Monitor CPU, memory, disk usage
+- **Screenshot** - Ambil screenshot
+- **Notes & Reminders** - Buat catatan dan pengingat
+- **Smart Home Control** - Kontrol perangkat smart home (simulasi)
+- **Calculator** - Kalkulasi matematika
+- **Email Notifications** - Kirim email notifikasi
+- **QR Code Generator** - Generate QR codes
+- **Wikipedia Search** - Cari informasi dari Wikipedia
 
-## 🛠️ Installation
+## Installation
 
 ### 1. Clone Repository
 ```bash
@@ -86,9 +82,9 @@ jarvis-ai-assistant/
 └── requirement.txt       # Python dependencies
 ```
 
-## 🚀 Running JARVIS
+## Running L.E.O
 
-### Method 1: Using JARVIS Launcher (Recommended)
+### Method 1: Using L.E.O Launcher (Recommended)
 ```bash
 python jarvis_launcher.py
 ```
@@ -113,7 +109,7 @@ python app.py
 python main.py
 ```
 
-## 🎮 How to Use
+## How to Use
 
 ### Web UI Controls
 1. **Start Listening** - Klik untuk mulai voice interaction
@@ -123,7 +119,7 @@ python main.py
 5. **Clear History** - Hapus chat history
 
 ### Voice Commands Examples
-- "Hey JARVIS, what's the weather today?"
+- "Hey L.E.O, what's the weather today?"
 - "Search for latest technology news"
 - "Generate an image of a futuristic city"
 - "Translate 'Hello World' to Japanese"
@@ -136,9 +132,9 @@ python main.py
 ### Keyboard Shortcuts
 - `Spacebar` - Toggle voice listening
 - `Esc` - Stop current operation
-- `Ctrl+C` - Stop JARVIS (in terminal)
+- `Ctrl+C` - Stop L.E.O (in terminal)
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -172,7 +168,7 @@ pip install pyaudio
 - Check API quotas/limits
 - Ensure keys have proper permissions
 
-## 🎨 UI Customization
+## UI Customization
 
 ### Change Colors
 Edit CSS variables in `index.html`:
@@ -191,24 +187,14 @@ document.documentElement.style.cssText = `
 ### Modify Animations
 Edit keyframes in CSS section of `index.html`
 
-## 📊 API Configuration
-
-### ElevenLabs
-1. Sign up at https://elevenlabs.io
-2. Create a Conversational AI agent
-3. Get API key and Agent ID from dashboard
-
-### OpenAI
-1. Sign up at https://platform.openai.com
-2. Generate API key
-3. Add billing information if needed
+## API Configuration
 
 ### OpenWeatherMap (Optional)
 1. Sign up at https://openweathermap.org
 2. Get free API key
 3. Add to `.env` file
 
-## 🔐 Security Notes
+## Security Notes
 - **Never commit `.env` file** to version control
 - Keep API keys secure
 - Use environment variables for sensitive data
@@ -216,14 +202,14 @@ Edit keyframes in CSS section of `index.html`
 - Regularly rotate API keys
 - Monitor API usage for unusual activity
 
-## 📈 Performance Optimization
+## Performance Optimization
 - Use GPU acceleration for image processing (if available)
 - Adjust audio buffer size for latency
 - Enable caching for frequent requests
 - Use CDN for static assets
 - Optimize WebSocket message size
 
-## 🐛 Debug Mode
+## Debug Mode
 Enable debug mode in `app.py`:
 ```python
 app.run(debug=True, port=5000)
@@ -234,13 +220,13 @@ Check logs:
 - Browser console: F12 → Console tab
 - WebSocket messages: F12 → Network → WS tab
 
-## 📱 Mobile Support
+## Mobile Support
 The UI is responsive and works on mobile devices:
 - Connect to same network
 - Access via: `http://[computer-ip]:5000`
 - Use headphones for better audio experience
 
-## 🚀 Future Enhancements
+## Future Enhancements
 - [ ] Multi-language support
 - [ ] Custom wake word detection
 - [ ] Integration with more smart home devices
